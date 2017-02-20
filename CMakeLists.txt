@@ -8,7 +8,7 @@ include(ExternalProject)
 find_package(Git REQUIRED)
 
 ExternalProject_Add(gram
-        PREFIX ${gram-math_SOURCE_DIR}/lib/gram
+        PREFIX ${gram-php_SOURCE_DIR}/lib/gram
         GIT_REPOSITORY https://github.com/jansvoboda11/gram
         GIT_TAG master
         UPDATE_COMMAND ""
