@@ -9,6 +9,8 @@
 #include <gram/util/number_generator/TwisterNumberGenerator.h>
 #include <gram/Evolution.h>
 
+#include "../include/PhpUnitEvaluator.h"
+
 using namespace gram;
 using namespace std;
 
@@ -24,54 +26,8 @@ string loadFile(const string& name) {
   return content;
 }
 
-bool putFile(const string& name, const string& content) {
-  ofstream outputFile(name);
-
-  if (!outputFile.is_open()) {
-    return false;
-  }
-
-  outputFile << content;
-
-  return true;
-}
-
-string execute(const string& command) {
-  FILE *pipe = popen(command.c_str(), "r");
-
-  if (!pipe) {
-    throw runtime_error("Could not open command line.");
-  }
-
-  string result;
-  char buffer[128];
-
-  while (fgets(buffer, 128, pipe)) {
-    result += buffer;
-  }
-
-  pclose(pipe);
-  return result;
-}
-
-class FakeEvaluator : public Evaluator {
- public:
-  FakeEvaluator(const string& path) : path(path) {};
-
-  double evaluate(string program) const {
-    putFile(path + "src/Calculator.php", "<?php namespace Examples; " + program);
-
-    string result = execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
-
-    return 0.0;
-  }
-
- private:
-  string path;
-};
-
 int main(int argc, char* argv[]) {
-  if (argc != 2) {
+  if (argc != 3) {
     return 1;
   }
 
@@ -94,7 +50,9 @@ int main(int argc, char* argv[]) {
 
   RandomInitializer initializer(move(numberGenerator4), grammar, 50);
 
-  unique_ptr<Evaluator> evaluator = make_unique<FakeEvaluator>("/cygdrive/c/Code/gram-php/example/calculator/");
+  CommandLine commandLine;
+
+  unique_ptr<Evaluator> evaluator = make_unique<PhpUnitEvaluator>(commandLine, argv[2]);
 
   Evolution evolution(move(evaluator));
 
