@@ -9,6 +9,27 @@ class CalculatorTest extends TestCase
     {
         $calculator = new Calculator();
 
-        self::assertEquals(0, $calculator->run());
+        self::assertEquals(0, $calculator->run(0));
+    }
+
+    public function test_it_fails()
+    {
+        $calculator = new Calculator();
+
+        self::assertEquals(1, $calculator->run(0));
+    }
+
+    public function test_it_passes()
+    {
+        $calculator = new Calculator();
+
+        self::assertEquals(0, $calculator->run(0));
+    }
+
+    public function test_it_fails_again()
+    {
+        $calculator = new Calculator();
+
+        self::assertGreaterThan(1, $calculator->run(0));
     }
 }

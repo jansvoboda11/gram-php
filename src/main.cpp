@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iostream>
 
 #include <gram/individual/crossover/OnePointCrossover.h>
 #include <gram/individual/mutation/NumberMutation.h>
@@ -12,6 +11,30 @@
 
 using namespace gram;
 using namespace std;
+
+string loadFile(const string& name) {
+  ifstream grammarFile(name);
+
+  if (!grammarFile.is_open()) {
+    return "";
+  }
+
+  string content((istreambuf_iterator<char>(grammarFile)), istreambuf_iterator<char>());
+
+  return content;
+}
+
+bool putFile(const string& name, const string& content) {
+  ofstream outputFile(name);
+
+  if (!outputFile.is_open()) {
+    return false;
+  }
+
+  outputFile << content;
+
+  return true;
+}
 
 string execute(const string& command) {
   FILE *pipe = popen(command.c_str(), "r");
@@ -32,24 +55,20 @@ string execute(const string& command) {
 }
 
 class FakeEvaluator : public Evaluator {
+ public:
+  FakeEvaluator(const string& path) : path(path) {};
+
   double evaluate(string program) const {
-    // execute("phpunit")
+    putFile(path + "src/Calculator.php", "<?php namespace Examples; " + program);
+
+    string result = execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
 
     return 0.0;
   }
+
+ private:
+  string path;
 };
-
-string loadFile(const string& name) {
-  ifstream grammarFile(name);
-
-  if (!grammarFile.is_open()) {
-    return "";
-  }
-
-  string content((istreambuf_iterator<char>(grammarFile)), istreambuf_iterator<char>());
-
-  return content;
-}
 
 int main(int argc, char* argv[]) {
   if (argc != 2) {
@@ -75,13 +94,13 @@ int main(int argc, char* argv[]) {
 
   RandomInitializer initializer(move(numberGenerator4), grammar, 50);
 
-  unique_ptr<Evaluator> evaluator = make_unique<FakeEvaluator>();
+  unique_ptr<Evaluator> evaluator = make_unique<FakeEvaluator>("/cygdrive/c/Code/gram-php/example/calculator/");
 
   Evolution evolution(move(evaluator));
 
   Population population = initializer.initialize(60, reproducer);
 
-//  Individual result = evolution.run(population);
+  Individual result = evolution.run(population);
 
   return 0;
 }

@@ -1,0 +1,5 @@
+<class> ::= "class Calculator { public function run(int $x) { " <return> " } }"
+<return> ::= "return " <expression> ";"
+<expression> ::= "(" <operand> <operator> <operand> ")" | <operand>
+<operator> ::= "+" | "*"
+<operand> ::= "1" | "$x"
