@@ -1,4 +1,4 @@
-<class> ::= "class Calculator { public function run(int $x) { " <return> " } }"
+<class> ::= "class Calculator { public function inc(int $x): int { " <return> " } }"
 <return> ::= "return " <expression> ";"
 <expression> ::= "(" <operand> <operator> <operand> ")" | <operand>
 <operator> ::= "+" | "*"
