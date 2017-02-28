@@ -4,4 +4,12 @@
             <directory>test</directory>
         </testsuite>
     </testsuites>
+    <listeners>
+        <listener class="LoggingListener" file="LoggingListener.php">
+            <arguments>
+                <string>phpunit-result.xml</string>
+                <boolean>false</boolean>
+            </arguments>
+        </listener>
+    </listeners>
 </phpunit>
