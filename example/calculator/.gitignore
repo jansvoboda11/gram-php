@@ -1,0 +1,3 @@
+src/Calculator.php
+vendor/
+phpunit-result.xml
