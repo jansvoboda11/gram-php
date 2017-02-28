@@ -1,11 +1,11 @@
-<phpunit bootstrap="src/autoload.php">
+<phpunit bootstrap="test/autoload.php">
     <testsuites>
         <testsuite name="calculator">
-            <directory>test</directory>
+            <directory>test/src</directory>
         </testsuite>
     </testsuites>
     <listeners>
-        <listener class="LoggingListener" file="LoggingListener.php">
+        <listener class="LoggingListener" file="test/LoggingListener.php">
             <arguments>
                 <string>phpunit-result.xml</string>
                 <boolean>false</boolean>

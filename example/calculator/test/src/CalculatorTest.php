@@ -30,6 +30,6 @@ class CalculatorTest extends TestCase
     {
         $calculator = new Calculator();
 
-        self::assertGreaterThan(42, $calculator->inc(41));
+        self::assertEquals(42, $calculator->inc(41));
     }
 }
