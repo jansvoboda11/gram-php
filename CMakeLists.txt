@@ -16,4 +16,13 @@ ExternalProject_Add(gram
         BUILD_ALWAYS 1
         )
 
+ExternalProject_Add(pugixml
+        PREFIX ${gram-php_SOURCE_DIR}/lib/pugixml
+        GIT_REPOSITORY https://github.com/zeux/pugixml
+        GIT_TAG master
+        UPDATE_COMMAND ""
+        INSTALL_COMMAND ""
+        BUILD_ALWAYS 1
+        )
+
 add_subdirectory(src)

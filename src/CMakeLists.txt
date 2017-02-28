@@ -1,4 +1,5 @@
 include_directories(../lib/gram/src/gram/include)
+include_directories(../lib/pugixml/src/pugixml/src)
 
 add_executable(gram-php
         ../include/CommandLine.h
@@ -8,6 +9,9 @@ add_executable(gram-php
         main.cpp
         )
 
-add_dependencies(gram-php gram)
+add_dependencies(gram-php gram pugixml)
 
-target_link_libraries(gram-php ${gram-php_SOURCE_DIR}/lib/gram/src/gram-build/src/libgram.a)
+target_link_libraries(gram-php
+        ${gram-php_SOURCE_DIR}/lib/gram/src/gram-build/src/libgram.a
+        ${gram-php_SOURCE_DIR}/lib/pugixml/src/pugixml-build/libpugixml.a
+        )
