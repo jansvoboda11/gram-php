@@ -12,6 +12,7 @@ class PhpUnitEvaluator : public gram::Evaluator {
   PhpUnitEvaluator(CommandLine commandLine, const std::string& path);
   double evaluate(std::string program) const;
  private:
+  double calculateFitness(std::string testOutput) const;
   CommandLine commandLine;
   std::string path;
 };

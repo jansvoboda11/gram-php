@@ -1,6 +1,7 @@
 #include "../include/PhpUnitEvaluator.h"
 
 #include <fstream>
+#include <regex>
 
 using namespace std;
 
@@ -10,17 +11,20 @@ PhpUnitEvaluator::PhpUnitEvaluator(CommandLine commandLine, const string& path)
 }
 
 double PhpUnitEvaluator::evaluate(string program) const {
-  ofstream outputFile(path + "src/Calculator.php", ofstream::trunc);
+  ofstream sourceFile(path + "src/Calculator.php", ofstream::trunc);
 
-  if (!outputFile.is_open()) {
+  if (!sourceFile.is_open()) {
     return 0.0;
   }
 
-  outputFile << "<?php namespace Examples; " + program << endl;
+  sourceFile << "<?php namespace Examples; " + program << endl;
 
-  string result = commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
+  string testOutput = commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
 
-  // parse the result and calculate fitness
+  return calculateFitness(testOutput);
+}
+
+double PhpUnitEvaluator::calculateFitness(string testOutput) const {
 
   return 0.0;
 }
