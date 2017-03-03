@@ -3,8 +3,14 @@ include_directories(../lib/pugixml/src/pugixml/src)
 
 add_executable(gram-php
         ../include/CommandLine.h
+        ../include/DiffCalculator.h
+        ../include/PhpLiteral.h
+        ../include/PhpType.h
         ../include/PhpUnitEvaluator.h
         CommandLine.cpp
+        DiffCalculator.cpp
+        PhpLiteral.cpp
+        PhpType.cpp
         PhpUnitEvaluator.cpp
         main.cpp
         )
