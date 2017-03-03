@@ -14,8 +14,8 @@ class PhpLiteral {
  private:
   std::string serialized;
   PhpType type;
-  static constexpr double DIFFERENT_TYPE_DIFF = 42.0;
-  static constexpr double MAXIMUM_DIFF = 1000.0;
+  static constexpr double TYPE_DIFF = 42.0;
+  static constexpr double MAX_DIFF = 1000.0;
 };
 
 #endif // GRAM_PHP_LITERAL

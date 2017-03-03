@@ -8,7 +8,7 @@ PhpLiteral::PhpLiteral(string serialized) : serialized(serialized), type(PhpType
 
 double PhpLiteral::diff(const PhpLiteral& other, shared_ptr<DiffCalculator> diffCalculator) const {
   if (type != other.type) {
-    return DIFFERENT_TYPE_DIFF;
+    return TYPE_DIFF;
   }
 
   if (type == PhpType::boolean()) {
@@ -55,5 +55,5 @@ double PhpLiteral::diff(const PhpLiteral& other, shared_ptr<DiffCalculator> diff
     return diff;
   }
 
-  return MAXIMUM_DIFF;
+  return MAX_DIFF;
 }
