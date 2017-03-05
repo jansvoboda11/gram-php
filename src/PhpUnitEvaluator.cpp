@@ -19,7 +19,7 @@ double PhpUnitEvaluator::evaluate(string program) const {
     return 0.0;
   }
 
-  sourceFile << "<?php namespace Examples; " + program << endl;
+  sourceFile << program << endl;
 
   string testOutput = commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
 
