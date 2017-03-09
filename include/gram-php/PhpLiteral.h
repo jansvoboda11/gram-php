@@ -4,8 +4,8 @@
 #include <memory>
 #include <string>
 
-#include "DiffCalculator.h"
-#include "PhpType.h"
+#include <gram-php/DiffCalculator.h>
+#include <gram-php/PhpType.h>
 
 class PhpLiteral {
  public:

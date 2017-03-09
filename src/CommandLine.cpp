@@ -1,4 +1,4 @@
-#include "../include/CommandLine.h"
+#include <gram-php/CommandLine.h>
 
 #include <stdexcept>
 

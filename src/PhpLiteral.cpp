@@ -1,4 +1,4 @@
-#include "../include/PhpLiteral.h"
+#include <gram-php/PhpLiteral.h>
 
 #include <regex>
 

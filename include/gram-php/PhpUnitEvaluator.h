@@ -5,7 +5,7 @@
 
 #include <gram/language/Evaluator.h>
 
-#include "CommandLine.h"
+#include <gram-php/CommandLine.h>
 
 class PhpUnitEvaluator : public gram::Evaluator {
  public:

@@ -9,7 +9,7 @@
 #include <gram/util/number_generator/TwisterNumberGenerator.h>
 #include <gram/Evolution.h>
 
-#include "../include/PhpUnitEvaluator.h"
+#include <gram-php/PhpUnitEvaluator.h>
 
 using namespace gram;
 using namespace std;

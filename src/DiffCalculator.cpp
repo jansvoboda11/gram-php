@@ -1,4 +1,4 @@
-#include "../include/DiffCalculator.h"
+#include <gram-php/DiffCalculator.h>
 
 using namespace std;
 

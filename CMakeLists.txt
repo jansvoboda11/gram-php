@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.6.0)
 
+include_directories(lib/gram/src/gram/include)
+include_directories(include)
+
 project(gram-php)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -26,3 +29,10 @@ ExternalProject_Add(pugixml
         )
 
 add_subdirectory(src)
+add_subdirectory(test)
+
+add_executable(gram-php-gen main.cpp)
+
+add_dependencies(gram-php-gen gram)
+
+target_link_libraries(gram-php-gen gram-php)

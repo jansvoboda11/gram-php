@@ -1,19 +1,20 @@
 include_directories(../lib/gram/src/gram/include)
 include_directories(../lib/pugixml/src/pugixml/src)
 
-add_executable(gram-php
-        ../include/CommandLine.h
-        ../include/DiffCalculator.h
-        ../include/PhpLiteral.h
-        ../include/PhpType.h
-        ../include/PhpUnitEvaluator.h
+set(SOURCE_FILES
+        ../include/gram-php/CommandLine.h
+        ../include/gram-php/DiffCalculator.h
+        ../include/gram-php/PhpLiteral.h
+        ../include/gram-php/PhpType.h
+        ../include/gram-php/PhpUnitEvaluator.h
         CommandLine.cpp
         DiffCalculator.cpp
         PhpLiteral.cpp
         PhpType.cpp
         PhpUnitEvaluator.cpp
-        main.cpp
         )
+
+add_library(gram-php STATIC ${SOURCE_FILES})
 
 add_dependencies(gram-php gram pugixml)
 

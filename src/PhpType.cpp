@@ -1,4 +1,4 @@
-#include "../include/PhpType.h"
+#include <gram-php/PhpType.h>
 
 PhpType PhpType::boolean() {
   return PhpType(TYPE_BOOLEAN);

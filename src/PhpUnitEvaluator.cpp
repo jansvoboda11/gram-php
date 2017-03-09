@@ -1,8 +1,9 @@
-#include "../include/PhpUnitEvaluator.h"
+#include <gram-php/PhpUnitEvaluator.h>
 
 #include <fstream>
-#include <pugixml.hpp>
 #include <regex>
+
+#include <pugixml.hpp>
 
 using namespace pugi;
 using namespace std;
