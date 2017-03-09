@@ -26,6 +26,7 @@ ExternalProject_Add(fakeit
 
 add_executable(gram-php-tests
         test.cpp
+        php_unserializer_test.cpp
         )
 
 add_dependencies(gram-php-tests catch fakeit)

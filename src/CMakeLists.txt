@@ -12,7 +12,7 @@ set(SOURCE_FILES
         PhpLiteral.cpp
         PhpType.cpp
         PhpUnitEvaluator.cpp
-        )
+        ../include/gram-php/PhpUnserializer.h PhpUnserializer.cpp)
 
 add_library(gram-php STATIC ${SOURCE_FILES})
 
