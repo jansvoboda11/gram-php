@@ -26,7 +26,7 @@ PhpLiteral PhpUnserializer::unserialize(string serializedLiteral) const {
 
   if (regex_match(serializedLiteral, matches, integerPattern)) {
     try {
-      long value = stol(matches[1]);
+      int value = stoi(matches[1]);
       return PhpLiteral(value);
     } catch (...) {
       throw logic_error("Could not parse serialized integer.");

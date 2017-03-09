@@ -8,18 +8,18 @@
 class PhpLiteral {
  public:
   PhpLiteral(bool value);
-  PhpLiteral(long value);
+  PhpLiteral(int value);
   PhpLiteral(double value);
   PhpLiteral(std::string value);
   PhpType type();
   bool booleanValue();
-  long integerValue();
+  int integerValue();
   double decimalValue();
   std::string stringValue();
  private:
   PhpType _type;
   bool _booleanValue;
-  long _integerValue;
+  int _integerValue;
   double _decimalValue;
   std::string _stringValue;
 };

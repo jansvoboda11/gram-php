@@ -8,7 +8,7 @@ PhpLiteral::PhpLiteral(bool value) : _type(PhpType::boolean()), _booleanValue(va
   //
 }
 
-PhpLiteral::PhpLiteral(long value) : _type(PhpType::integer()), _integerValue(value) {
+PhpLiteral::PhpLiteral(int value) : _type(PhpType::integer()), _integerValue(value) {
   //
 }
 
@@ -32,7 +32,7 @@ bool PhpLiteral::booleanValue() {
   return _booleanValue;
 }
 
-long PhpLiteral::integerValue() {
+int PhpLiteral::integerValue() {
   if (_type != PhpType::integer()) {
     throw logic_error("The literal is not an integer.");
   }
