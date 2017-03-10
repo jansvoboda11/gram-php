@@ -83,6 +83,15 @@ TEST_CASE("Whole decimal number is unserialized") {
   REQUIRE(literal.decimalValue() == 1.0);
 }
 
+TEST_CASE("Decimal number in scientific notation is unserialized") {
+  PhpUnserializer unserializer;
+
+  PhpLiteral literal = unserializer.unserialize("d:1.234E+17;");
+
+  REQUIRE(literal.type() == PhpType::decimal());
+  REQUIRE(literal.decimalValue() == 123400000000000000.0);
+}
+
 TEST_CASE("Not a decimal number causes failure") {
   PhpUnserializer unserializer;
 
