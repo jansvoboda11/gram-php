@@ -13,51 +13,64 @@ PhpLiteral PhpUnserializer::unserialize(string serializedLiteral) const {
   smatch matches;
 
   if (regex_match(serializedLiteral, matches, booleanPattern)) {
-    if (matches[1] == "0") {
+    string match = matches[1];
+
+    if (match == "0") {
       return PhpLiteral(false);
     }
 
-    if (matches[1] == "1") {
+    if (match == "1") {
       return PhpLiteral(true);
     }
 
-    throw logic_error("Could not parse serialized boolean.");
+    throw logic_error("Could not unserialize boolean value \"" + match + "\".");
   }
 
   if (regex_match(serializedLiteral, matches, integerPattern)) {
+    string match = matches[1];
+
     try {
-      int value = stoi(matches[1]);
+      int value = stoi(match);
       return PhpLiteral(value);
-    } catch (...) {
-      throw logic_error("Could not parse serialized integer.");
+    } catch (out_of_range exception) {
+      throw logic_error("Could not unserialize too large integer \"" + match + "\".");
+    } catch (invalid_argument exception) {
+      throw logic_error("Could not unserialize integer \"" + match + "\".");
     }
   }
 
   if (regex_match(serializedLiteral, matches, decimalPattern)) {
+    string match = matches[1];
+
     try {
-      double value = stod(matches[1]);
+      double value = stod(match);
       return PhpLiteral(value);
-    } catch (...) {
-      throw logic_error("Could not parse serialized decimal number.");
+    } catch (out_of_range exception) {
+      throw logic_error("Could not unserialize too large decimal number \"" + match + "\".");
+    } catch (invalid_argument exception) {
+      throw logic_error("Could not unserialize decimal number \"" + match + "\".");
     }
   }
 
   if (regex_match(serializedLiteral, matches, stringPattern)) {
+    string promisedLength = matches[1];
     string value = matches[2];
     int length;
 
     try {
-      length = stoi(matches[1]);
-    } catch (...) {
-      throw logic_error("Could not parse serialized string length.");
+      length = stoi(promisedLength);
+    } catch (out_of_range exception) {
+      throw logic_error("Could not unserialize too large string length \"" + promisedLength + "\".");
+    } catch (invalid_argument exception) {
+      throw logic_error("Could not unserialize string length \"" + promisedLength + "\".");
     }
 
     if (length != value.length()) {
-      throw logic_error("String length does not match promised length.");
+      throw logic_error("Length of string \"" + value + "\" does not match promised length \"" + promisedLength + "\".");
     }
 
-    return PhpLiteral(matches[2]);
+    return PhpLiteral(value);
   }
 
-  throw logic_error("Could not parse serialized literal.");
+  throw logic_error("Could not recognize serialized literal.");
 }
