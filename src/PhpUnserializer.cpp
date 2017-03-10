@@ -6,8 +6,8 @@ using namespace std;
 
 PhpLiteral PhpUnserializer::unserialize(string serializedLiteral) const {
   regex booleanPattern("^b:([01]);$");
-  regex integerPattern("^i:(-?[1-9]+\\d*);$");
-  regex decimalPattern("^d:(-?[0-9]+(?:.[0-9]*(?:[eE][+-][1-9]+\\d*)?)?);$"); // handle 0.
+  regex integerPattern("^i:(-?(?:0|[1-9]+\\d*));$");
+  regex decimalPattern("^d:(-?(?:0|[1-9]+\\d*)(?:.[0-9]*(?:[eE][+-][1-9]+\\d*)?)?);$");
   regex stringPattern("^s:[1-9]+\\d*:\"(.*)\";$");
 
   smatch matches;

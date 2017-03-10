@@ -44,6 +44,21 @@ TEST_CASE("Negative integer is unserialized") {
   REQUIRE(literal.integerValue() == -10);
 }
 
+TEST_CASE("Zero integer is unserialized") {
+  PhpUnserializer unserializer;
+
+  PhpLiteral literal = unserializer.unserialize("i:0;");
+
+  REQUIRE(literal.type() == PhpType::integer());
+  REQUIRE(literal.integerValue() == 0);
+}
+
+TEST_CASE("Two-zeroes integer causes failure") {
+  PhpUnserializer unserializer;
+
+  REQUIRE_THROWS(unserializer.unserialize("i:00;"));
+}
+
 TEST_CASE("Too large integer causes failure") {
   PhpUnserializer unserializer;
 
@@ -90,6 +105,21 @@ TEST_CASE("Decimal number in scientific notation is unserialized") {
 
   REQUIRE(literal.type() == PhpType::decimal());
   REQUIRE(literal.decimalValue() == 123400000000000000.0);
+}
+
+TEST_CASE("Decimal number with one zero before dot is unserialized") {
+  PhpUnserializer unserializer;
+
+  PhpLiteral literal = unserializer.unserialize("d:0.1234;");
+
+  REQUIRE(literal.type() == PhpType::decimal());
+  REQUIRE(literal.decimalValue() == 0.1234);
+}
+
+TEST_CASE("Decimal number with more zeroes before dot causes failure") {
+  PhpUnserializer unserializer;
+
+  REQUIRE_THROWS(unserializer.unserialize("d:00.1234;"));
 }
 
 TEST_CASE("Not a decimal number causes failure") {
