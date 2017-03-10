@@ -127,3 +127,36 @@ TEST_CASE("Not a decimal number causes failure") {
 
   REQUIRE_THROWS(unserializer.unserialize("d:bl.ah;"));
 }
+
+TEST_CASE("Normal string is unserialized") {
+  PhpUnserializer unserializer;
+
+  PhpLiteral literal = unserializer.unserialize("s:5:\"hello\";");
+
+  REQUIRE(literal.type() == PhpType::string());
+  REQUIRE(literal.stringValue() == "hello");
+}
+
+TEST_CASE("Zero-length string is unserialized") {
+  PhpUnserializer unserializer;
+
+  PhpLiteral literal = unserializer.unserialize("s:0:\"\";");
+
+  REQUIRE(literal.type() == PhpType::string());
+  REQUIRE(literal.stringValue() == "");
+}
+
+TEST_CASE("String containing quotation mark is unserialized") {
+  PhpUnserializer unserializer;
+
+  PhpLiteral literal = unserializer.unserialize("s:11:\"hello\"world\";");
+
+  REQUIRE(literal.type() == PhpType::string());
+  REQUIRE(literal.stringValue() == "hello\"world");
+}
+
+TEST_CASE("String with non-matching length causes failure") {
+  PhpUnserializer unserializer;
+
+  REQUIRE_THROWS(unserializer.unserialize("s:2:\"hello\";"));
+}
