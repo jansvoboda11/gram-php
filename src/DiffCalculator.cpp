@@ -31,7 +31,7 @@ double DiffCalculator::calculate(bool first, bool second) const {
 }
 
 double DiffCalculator::calculate(int first, int second) const {
-  return 0.0;
+  return abs(first - second);
 }
 
 double DiffCalculator::calculate(double first, double second) const {

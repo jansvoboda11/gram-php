@@ -5,6 +5,10 @@
 
 #include <pugixml.hpp>
 
+#include <gram-php/DiffCalculator.h>
+#include <gram-php/PhpLiteral.h>
+#include <gram-php/PhpUnserializer.h>
+
 using namespace pugi;
 using namespace std;
 
@@ -22,29 +26,41 @@ double PhpUnitEvaluator::evaluate(string program) const {
 
   sourceFile << program << endl;
 
-  string testOutput = commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
+  commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
 
-  return calculateFitness(testOutput);
+  return calculateFitness();
 }
 
-double PhpUnitEvaluator::calculateFitness(string testOutput) const {
+double PhpUnitEvaluator::calculateFitness() const {
+  DiffCalculator calculator;
+  PhpUnserializer unserializer;
+
   string documentPath(path + "phpunit-result.xml");
 
   xml_document document;
 
   if (!document.load_file(documentPath.c_str())) {
-    return 0.0;
+    throw logic_error("Could not open file with PhpUnit results.");
   }
 
-  string name = document
-      .child("testsuites")
-      .child("testsuite")
-      .child("testsuite")
-      .child("testcase")
-      .child("failure")
-      .child("expected")
-      .text()
-      .get(); // first failure, expected value
+  vector<pair<PhpLiteral, PhpLiteral>> failures;
 
-  return 0.0;
+  auto testCases = document.child("testsuites").child("testsuite").child("testsuite").children("testcase");
+
+  for (auto &testCase : testCases) {
+    for (auto &failure : testCase.children("failure")) {
+      PhpLiteral expected = unserializer.unserialize(failure.child("expected").text().get());
+      PhpLiteral actual = unserializer.unserialize(failure.child("actual").text().get());
+
+      failures.push_back(make_pair(expected, actual));
+    }
+  }
+
+  double fitness = 0.0;
+
+  for (auto &failure : failures) {
+    fitness += calculator.calculate(failure.first, failure.second);
+  }
+
+  return fitness;
 }

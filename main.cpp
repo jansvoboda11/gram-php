@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 #include <gram/individual/crossover/OnePointCrossover.h>
 #include <gram/individual/mutation/NumberMutation.h>
@@ -59,6 +60,8 @@ int main(int argc, char* argv[]) {
   Population population = initializer.initialize(60, reproducer);
 
   Individual result = evolution.run(population);
+
+  cout << result.serialize() << endl;
 
   return 0;
 }
