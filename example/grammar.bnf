@@ -1,5 +1,7 @@
 <program> ::= "<?php namespace Example; " <class>
-<class> ::= "class Calculator { public static function increment(int $x): int { " <return> " } }"
+<class> ::= "class Calculator { public static function increment(int $x): int { " <statement-list> " } }"
+<statement-list> ::= <statement> <statement-list> | <statement>
+<statement> ::= <return>
 <return> ::= "return " <expression> ";"
 <expression> ::= "(" <operand> <operator> <operand> ")" | <operand>
 <operator> ::= "+" | "*"
