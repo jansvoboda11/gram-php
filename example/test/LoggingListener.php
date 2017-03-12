@@ -7,7 +7,7 @@ use PHPUnit\Util\Log\JUnit;
 
 /**
  * Listener that generates a logfile of the test execution in XML markup.
- * It extends standard JUnit format by adding formatted expected and actual values.
+ * It extends standard JUnit format by adding serialized expected and actual values.
  */
 class LoggingListener extends JUnit
 {
