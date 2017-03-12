@@ -1,8 +1,11 @@
 <program> ::= "<?php namespace Example; " <class>
-<class> ::= "class Calculator { public static function increment(int $x): int { " <statement-list> " } }"
+<class> ::= "class Calculator { public static function increment($x) { " <statement-list> " } }"
 <statement-list> ::= <statement> <statement-list> | <statement>
-<statement> ::= <return>
-<return> ::= "return " <expression> ";"
-<expression> ::= "(" <operand> <operator> <operand> ")" | <operand>
-<operator> ::= "+" | "*"
-<operand> ::= "1" | "$x"
+<statement> ::= <condition> | <return>
+<condition> ::= "if (" <boolean-expression> ") {" <statement-list> "}"
+<return> ::= "return " <integer-expression> ";"
+<integer-expression> ::= "(" <operand> " " <integer-operator> " " <operand> ")" | <operand> | "null"
+<integer-operator> ::= "+" | "*"
+<boolean-expression> ::= <operand> " " <boolean-operator> " " <operand>
+<boolean-operator> ::= "<"
+<operand> ::= "0" | "1" | "$x"
