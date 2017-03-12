@@ -7,6 +7,7 @@
 
 class PhpLiteral {
  public:
+  PhpLiteral();
   PhpLiteral(bool value);
   PhpLiteral(int value);
   PhpLiteral(double value);

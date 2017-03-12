@@ -4,6 +4,10 @@
 
 using namespace std;
 
+PhpLiteral::PhpLiteral() : _type(PhpType::null()) {
+  //
+}
+
 PhpLiteral::PhpLiteral(bool value) : _type(PhpType::boolean()), _booleanValue(value) {
   //
 }

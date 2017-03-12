@@ -7,6 +7,10 @@ double DiffCalculator::calculate(PhpLiteral first, PhpLiteral second) const {
     return TYPE_DIFF;
   }
 
+  if (first.type() == PhpType::null()) {
+    return 0.0;
+  }
+
   if (first.type() == PhpType::boolean()) {
     return calculate(first.booleanValue(), second.booleanValue());
   }

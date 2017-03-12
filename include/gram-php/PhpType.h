@@ -3,6 +3,7 @@
 
 class PhpType {
  public:
+  static PhpType null();
   static PhpType boolean();
   static PhpType integer();
   static PhpType decimal();
@@ -13,11 +14,12 @@ class PhpType {
  private:
   PhpType(unsigned type);
   unsigned type;
-  static const unsigned TYPE_BOOLEAN = 0;
-  static const unsigned TYPE_INTEGER = 1;
-  static const unsigned TYPE_DECIMAL = 2;
-  static const unsigned TYPE_STRING = 3;
-  static const unsigned TYPE_ARRAY = 4;
+  static const unsigned TYPE_NULL = 0;
+  static const unsigned TYPE_BOOLEAN = 1;
+  static const unsigned TYPE_INTEGER = 2;
+  static const unsigned TYPE_DECIMAL = 3;
+  static const unsigned TYPE_STRING = 4;
+  static const unsigned TYPE_ARRAY = 5;
 };
 
 #endif // GRAM_PHP_TYPE

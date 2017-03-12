@@ -5,6 +5,11 @@ use PHPUnit\Framework\TestCase;
 
 class CalculatorTest extends TestCase
 {
+    public function test_it_rejects_negative_number()
+    {
+        self::assertEquals(null, Calculator::increment(-42));
+    }
+
     public function test_it_increments_zero()
     {
         self::assertEquals(1, Calculator::increment(0));

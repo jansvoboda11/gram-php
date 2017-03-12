@@ -2,6 +2,14 @@
 
 #include <gram-php/PhpSerializer.h>
 
+TEST_CASE("Null is unserialized") {
+  PhpSerializer serializer;
+
+  PhpLiteral literal = serializer.deserialize("N;");
+
+  REQUIRE(literal.type() == PhpType::null());
+}
+
 TEST_CASE("False boolean is unserialized") {
   PhpSerializer serializer;
 

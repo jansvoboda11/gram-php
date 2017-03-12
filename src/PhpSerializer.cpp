@@ -5,12 +5,17 @@
 using namespace std;
 
 PhpLiteral PhpSerializer::deserialize(string serializedLiteral) const {
+  regex nullPattern("^[nN];$");
   regex booleanPattern("^b:([01]);$");
   regex integerPattern("^i:(-?(?:0|[1-9]+\\d*));$");
   regex decimalPattern("^d:(-?(?:0|[1-9]+\\d*)(?:.[0-9]*(?:[eE][+-][1-9]+\\d*)?)?);$");
   regex stringPattern("^s:(0|[1-9]+\\d*):\"(.*)\";$");
 
   smatch matches;
+
+  if (regex_match(serializedLiteral, matches, nullPattern)) {
+    return PhpLiteral();
+  }
 
   if (regex_match(serializedLiteral, matches, booleanPattern)) {
     return deserializeBoolean(matches[1]);

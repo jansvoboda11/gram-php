@@ -1,12 +1,12 @@
 #include <gram-php/PhpUnitEvaluator.h>
 
 #include <fstream>
+#include <iostream>
 #include <regex>
 
 #include <pugixml.hpp>
 
 #include <gram-php/DiffCalculator.h>
-#include <gram-php/PhpLiteral.h>
 #include <gram-php/PhpSerializer.h>
 
 using namespace pugi;
@@ -28,7 +28,11 @@ double PhpUnitEvaluator::evaluate(string program) const {
 
   commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
 
-  return calculateFitness();
+  double fitness = calculateFitness();
+
+  cout << to_string(fitness) << ":\t" << program << endl;
+
+  return fitness;
 }
 
 double PhpUnitEvaluator::calculateFitness() const {
@@ -48,6 +52,10 @@ double PhpUnitEvaluator::calculateFitness() const {
   auto testCases = document.child("testsuites").child("testsuite").child("testsuite").children("testcase");
 
   for (auto &testCase : testCases) {
+    if (!testCase.child("error").empty()) {
+      return 10000.0;
+    }
+
     for (auto &failure : testCase.children("failure")) {
       PhpLiteral expected = serializer.deserialize(failure.child("expected").text().get());
       PhpLiteral actual = serializer.deserialize(failure.child("actual").text().get());

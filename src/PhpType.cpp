@@ -1,5 +1,9 @@
 #include <gram-php/PhpType.h>
 
+PhpType PhpType::null() {
+  return PhpType(TYPE_NULL);
+}
+
 PhpType PhpType::boolean() {
   return PhpType(TYPE_BOOLEAN);
 }
