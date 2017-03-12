@@ -7,7 +7,7 @@
 
 #include <gram-php/DiffCalculator.h>
 #include <gram-php/PhpLiteral.h>
-#include <gram-php/PhpUnserializer.h>
+#include <gram-php/PhpSerializer.h>
 
 using namespace pugi;
 using namespace std;
@@ -33,7 +33,7 @@ double PhpUnitEvaluator::evaluate(string program) const {
 
 double PhpUnitEvaluator::calculateFitness() const {
   DiffCalculator calculator;
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
   string documentPath(path + "phpunit-result.xml");
 
@@ -49,8 +49,8 @@ double PhpUnitEvaluator::calculateFitness() const {
 
   for (auto &testCase : testCases) {
     for (auto &failure : testCase.children("failure")) {
-      PhpLiteral expected = unserializer.unserialize(failure.child("expected").text().get());
-      PhpLiteral actual = unserializer.unserialize(failure.child("actual").text().get());
+      PhpLiteral expected = serializer.deserialize(failure.child("expected").text().get());
+      PhpLiteral actual = serializer.deserialize(failure.child("actual").text().get());
 
       failures.push_back(make_pair(expected, actual));
     }

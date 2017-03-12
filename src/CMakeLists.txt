@@ -5,15 +5,15 @@ set(SOURCE_FILES
         CommandLine.cpp
         DiffCalculator.cpp
         PhpLiteral.cpp
+        PhpSerializer.cpp
         PhpType.cpp
         PhpUnitEvaluator.cpp
-        PhpUnserializer.cpp
         ../include/gram-php/CommandLine.h
         ../include/gram-php/DiffCalculator.h
         ../include/gram-php/PhpLiteral.h
+        ../include/gram-php/PhpSerializer.h
         ../include/gram-php/PhpType.h
         ../include/gram-php/PhpUnitEvaluator.h
-        ../include/gram-php/PhpUnserializer.h
         )
 
 add_library(gram-php STATIC ${SOURCE_FILES})

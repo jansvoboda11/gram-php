@@ -1,162 +1,162 @@
 #include <catch.hpp>
 
-#include <gram-php/PhpUnserializer.h>
+#include <gram-php/PhpSerializer.h>
 
 TEST_CASE("False boolean is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("b:0;");
+  PhpLiteral literal = serializer.deserialize("b:0;");
 
   REQUIRE(literal.type() == PhpType::boolean());
   REQUIRE(literal.booleanValue() == false);
 }
 
 TEST_CASE("True boolean is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("b:1;");
+  PhpLiteral literal = serializer.deserialize("b:1;");
 
   REQUIRE(literal.type() == PhpType::boolean());
   REQUIRE(literal.booleanValue() == true);
 }
 
 TEST_CASE("Not a boolean causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("b:2;"));
+  REQUIRE_THROWS(serializer.deserialize("b:2;"));
 }
 
 TEST_CASE("Positive integer is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("i:1;");
+  PhpLiteral literal = serializer.deserialize("i:1;");
 
   REQUIRE(literal.type() == PhpType::integer());
   REQUIRE(literal.integerValue() == 1);
 }
 
 TEST_CASE("Negative integer is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("i:-10;");
+  PhpLiteral literal = serializer.deserialize("i:-10;");
 
   REQUIRE(literal.type() == PhpType::integer());
   REQUIRE(literal.integerValue() == -10);
 }
 
 TEST_CASE("Zero integer is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("i:0;");
+  PhpLiteral literal = serializer.deserialize("i:0;");
 
   REQUIRE(literal.type() == PhpType::integer());
   REQUIRE(literal.integerValue() == 0);
 }
 
 TEST_CASE("Two-zeroes integer causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("i:00;"));
+  REQUIRE_THROWS(serializer.deserialize("i:00;"));
 }
 
 TEST_CASE("Too large integer causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("i:2147483648;"));
+  REQUIRE_THROWS(serializer.deserialize("i:2147483648;"));
 }
 
 TEST_CASE("Not an integer causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("i:blah;"));
+  REQUIRE_THROWS(serializer.deserialize("i:blah;"));
 }
 
 TEST_CASE("Positive decimal number is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("d:12.34;");
+  PhpLiteral literal = serializer.deserialize("d:12.34;");
 
   REQUIRE(literal.type() == PhpType::decimal());
   REQUIRE(literal.decimalValue() == 12.34);
 }
 
 TEST_CASE("Negative decimal number is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("d:-12.34;");
+  PhpLiteral literal = serializer.deserialize("d:-12.34;");
 
   REQUIRE(literal.type() == PhpType::decimal());
   REQUIRE(literal.decimalValue() == -12.34);
 }
 
 TEST_CASE("Whole decimal number is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("d:1;");
+  PhpLiteral literal = serializer.deserialize("d:1;");
 
   REQUIRE(literal.type() == PhpType::decimal());
   REQUIRE(literal.decimalValue() == 1.0);
 }
 
 TEST_CASE("Decimal number in scientific notation is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("d:1.234E+17;");
+  PhpLiteral literal = serializer.deserialize("d:1.234E+17;");
 
   REQUIRE(literal.type() == PhpType::decimal());
   REQUIRE(literal.decimalValue() == 123400000000000000.0);
 }
 
 TEST_CASE("Decimal number with one zero before dot is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("d:0.1234;");
+  PhpLiteral literal = serializer.deserialize("d:0.1234;");
 
   REQUIRE(literal.type() == PhpType::decimal());
   REQUIRE(literal.decimalValue() == 0.1234);
 }
 
 TEST_CASE("Decimal number with more zeroes before dot causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("d:00.1234;"));
+  REQUIRE_THROWS(serializer.deserialize("d:00.1234;"));
 }
 
 TEST_CASE("Not a decimal number causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("d:bl.ah;"));
+  REQUIRE_THROWS(serializer.deserialize("d:bl.ah;"));
 }
 
 TEST_CASE("Normal string is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("s:5:\"hello\";");
+  PhpLiteral literal = serializer.deserialize("s:5:\"hello\";");
 
   REQUIRE(literal.type() == PhpType::string());
   REQUIRE(literal.stringValue() == "hello");
 }
 
 TEST_CASE("Zero-length string is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("s:0:\"\";");
+  PhpLiteral literal = serializer.deserialize("s:0:\"\";");
 
   REQUIRE(literal.type() == PhpType::string());
   REQUIRE(literal.stringValue() == "");
 }
 
 TEST_CASE("String containing quotation mark is unserialized") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  PhpLiteral literal = unserializer.unserialize("s:11:\"hello\"world\";");
+  PhpLiteral literal = serializer.deserialize("s:11:\"hello\"world\";");
 
   REQUIRE(literal.type() == PhpType::string());
   REQUIRE(literal.stringValue() == "hello\"world");
 }
 
 TEST_CASE("String with non-matching length causes failure") {
-  PhpUnserializer unserializer;
+  PhpSerializer serializer;
 
-  REQUIRE_THROWS(unserializer.unserialize("s:2:\"hello\";"));
+  REQUIRE_THROWS(serializer.deserialize("s:2:\"hello\";"));
 }
