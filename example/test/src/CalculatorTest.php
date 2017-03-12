@@ -5,31 +5,23 @@ use PHPUnit\Framework\TestCase;
 
 class CalculatorTest extends TestCase
 {
-    public function test_it_returns_integer()
+    public function test_it_increments_zero()
     {
-        $calculator = new Calculator();
-
-        self::assertEquals(0, $calculator->inc(-1));
+        self::assertEquals(1, Calculator::inc(0));
     }
 
-    public function test_it_fails()
+    public function test_it_increments_one()
     {
-        $calculator = new Calculator();
-
-        self::assertEquals(2, $calculator->inc(1));
+        self::assertEquals(2, Calculator::inc(1));
     }
 
-    public function test_it_passes()
+    public function test_it_increments_two()
     {
-        $calculator = new Calculator();
-
-        self::assertEquals(3, $calculator->inc(2));
+        self::assertEquals(3, Calculator::inc(2));
     }
 
-    public function test_it_fails_again()
+    public function test_it_produces_the_answer_to_the_ultimate_question_of_life_the_universe_and_everything()
     {
-        $calculator = new Calculator();
-
-        self::assertEquals(42, $calculator->inc(41));
+        self::assertEquals(42, Calculator::inc(41));
     }
 }
