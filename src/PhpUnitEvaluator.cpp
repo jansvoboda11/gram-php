@@ -1,7 +1,6 @@
 #include <gram-php/PhpUnitEvaluator.h>
 
 #include <fstream>
-#include <iostream>
 #include <regex>
 
 #include <pugixml.hpp>
@@ -17,7 +16,13 @@ PhpUnitEvaluator::PhpUnitEvaluator(CommandLine commandLine, const string& path)
   //
 }
 
-double PhpUnitEvaluator::evaluate(string program) const {
+double PhpUnitEvaluator::evaluate(string program) {
+  double& fitness = storedFitness[program];
+
+  if (fitness) {
+    return fitness;
+  }
+
   ofstream sourceFile(path + "src/Calculator.php", ofstream::trunc);
 
   if (!sourceFile.is_open()) {
@@ -28,14 +33,12 @@ double PhpUnitEvaluator::evaluate(string program) const {
 
   commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
 
-  double fitness = calculateFitness();
-
-  cout << to_string(fitness) << ":\t" << program << endl;
+  fitness = calculateFitness();
 
   return fitness;
 }
 
-double PhpUnitEvaluator::calculateFitness() const {
+double PhpUnitEvaluator::calculateFitness() {
   DiffCalculator calculator;
   PhpSerializer serializer;
 
