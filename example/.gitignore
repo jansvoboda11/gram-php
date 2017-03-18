@@ -1,3 +1,4 @@
+src/SantaFeTrail/Brain.php
 src/Calculator.php
 vendor/
 phpunit-result.xml
