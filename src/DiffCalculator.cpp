@@ -1,5 +1,7 @@
 #include <gram-php/DiffCalculator.h>
 
+#include <cstdlib>
+
 using namespace std;
 
 double DiffCalculator::calculate(PhpLiteral first, PhpLiteral second) const {
