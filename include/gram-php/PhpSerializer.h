@@ -13,6 +13,7 @@ class PhpSerializer {
   PhpLiteral deserializeInteger(std::string value) const;
   PhpLiteral deserializeDecimal(std::string value) const;
   PhpLiteral deserializeString(std::string value, std::string promisedLength) const;
+  PhpLiteral deserializeArray(std::string value, std::string promisedSize) const;
 };
 
 #endif // GRAM_PHP_SERIALIZER

@@ -2,6 +2,8 @@
 
 #include <gram-php/PhpSerializer.h>
 
+using namespace std;
+
 TEST_CASE("Null is unserialized") {
   PhpSerializer serializer;
 
@@ -167,4 +169,23 @@ TEST_CASE("String with non-matching length causes failure") {
   PhpSerializer serializer;
 
   REQUIRE_THROWS(serializer.deserialize("s:2:\"hello\";"));
+}
+
+TEST_CASE("Array with no items is unserialized") {
+  PhpSerializer serializer;
+
+  PhpLiteral literal = serializer.deserialize("a:0:{}");
+
+  REQUIRE(literal.type() == PhpType::array());
+}
+
+TEST_CASE("Array with integers is unserialized") {
+  PhpSerializer serializer;
+
+  PhpLiteral literal = serializer.deserialize("a:4:{i:0;i:-10;i:1;i:-5;i:2;i:-3;i:3;i:-1;}");
+
+  vector<PhpLiteral> expectedItems{PhpLiteral(-10), PhpLiteral(-5), PhpLiteral(-3), PhpLiteral(-1)};
+
+  REQUIRE(literal.type() == PhpType::array());
+  REQUIRE(literal.arrayValue() == expectedItems);
 }

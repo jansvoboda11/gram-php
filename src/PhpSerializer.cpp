@@ -2,6 +2,8 @@
 
 #include <regex>
 
+#include <gram/util/helper.h>
+
 using namespace std;
 
 PhpLiteral PhpSerializer::deserialize(string serializedLiteral) const {
@@ -10,6 +12,7 @@ PhpLiteral PhpSerializer::deserialize(string serializedLiteral) const {
   regex integerPattern("^i:(-?(?:0|[1-9]+\\d*));$");
   regex decimalPattern("^d:(-?(?:0|[1-9]+\\d*)(?:.[0-9]*(?:[eE][+-][1-9]+\\d*)?)?);$");
   regex stringPattern("^s:(0|[1-9]+\\d*):\"(.*)\";$");
+  regex arrayPattern("^a:(0|[1-9]+\\d*):\\{(.*)\\}$");
 
   smatch matches;
 
@@ -31,6 +34,10 @@ PhpLiteral PhpSerializer::deserialize(string serializedLiteral) const {
 
   if (regex_match(serializedLiteral, matches, stringPattern)) {
     return deserializeString(matches[2], matches[1]);
+  }
+
+  if (regex_match(serializedLiteral, matches, arrayPattern)) {
+    return deserializeArray(matches[2], matches[1]);
   }
 
   throw logic_error("Could not recognize serialized literal.");
@@ -84,4 +91,43 @@ PhpLiteral PhpSerializer::deserializeString(string value, string promisedLength)
   }
 
   return PhpLiteral(value);
+}
+
+PhpLiteral PhpSerializer::deserializeArray(std::string value, std::string promisedSize) const {
+  vector<PhpLiteral> values;
+
+  vector<string> pieces = gram::explode(value, ";");
+  pieces.pop_back();
+
+  bool isValue = true;
+
+  for (auto &serializedLiteral : pieces) {
+    isValue = !isValue;
+
+    if (!isValue) {
+      continue;
+    }
+
+    serializedLiteral += ";";
+
+    PhpLiteral literal = deserialize(serializedLiteral);
+
+    values.push_back(literal);
+  }
+
+  int size;
+
+  try {
+    size = stoi(promisedSize);
+  } catch (out_of_range exception) {
+    throw logic_error("Could not unserialize too large array size \"" + promisedSize + "\".");
+  } catch (invalid_argument exception) {
+    throw logic_error("Could not unserialize array size \"" + promisedSize + "\".");
+  }
+
+  if (size != values.size()) {
+    throw logic_error("Size of array \"" + value + "\" does not match promised size\"" + promisedSize + "\".");
+  }
+
+  return PhpLiteral(values);
 }
