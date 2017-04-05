@@ -1,0 +1,20 @@
+<program> ::= "<?php namespace Example; class ArrayHelper { public static function filter(array $input, callable $condition) : array { " <statements> " } }"
+<statements> ::= <statement> <statements> | <statement>
+<statement> ::= <array-initialization> | <array-push> | <foreach-loop> | <if-condition> | <return>
+
+<array-initialization> ::= <array-variable> " = []; "
+<array-push> ::= <array-variable> "[] = " <item-variable> "; "
+<foreach-loop> ::= "foreach (" <array-parameter> " as " <item-variable> ") { " <foreach-statements> " } "
+<if-condition> ::= "if (" <logical-expression> ") { " <if-statements> " } "
+<return> ::= "return " <array-variable> "; "
+
+<foreach-statements> ::= <array-initialization> | <array-push> | <if-condition> | <return>
+<if-statements> ::= <array-initialization> | <array-push> | <foreach-loop> | <return>
+
+<logical-expression> ::= <callable-parameter> "(" <item-variable> ")"
+
+<array-variable> ::= "$var"
+<item-variable> ::= "$item"
+
+<array-parameter> ::= "$input"
+<callable-parameter> ::= "$condition"

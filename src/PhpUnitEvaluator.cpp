@@ -1,5 +1,7 @@
 #include <gram-php/PhpUnitEvaluator.h>
 
+#include <iostream>
+
 #include <fstream>
 #include <regex>
 
@@ -11,8 +13,8 @@
 using namespace pugi;
 using namespace std;
 
-PhpUnitEvaluator::PhpUnitEvaluator(CommandLine commandLine, const string& path)
-    : commandLine(commandLine), path(path) {
+PhpUnitEvaluator::PhpUnitEvaluator(CommandLine commandLine, const string& path, const string& file, const string& test)
+    : commandLine(commandLine), path(path), file(file), test(test) {
   //
 }
 
@@ -23,7 +25,7 @@ double PhpUnitEvaluator::evaluate(string program) {
     return fitness;
   }
 
-  ofstream sourceFile(path + "src/Calculator.php", ofstream::trunc);
+  ofstream sourceFile(file, ofstream::trunc);
 
   if (!sourceFile.is_open()) {
     return 0.0;
@@ -31,9 +33,11 @@ double PhpUnitEvaluator::evaluate(string program) {
 
   sourceFile << program << endl;
 
-  commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit");
+  commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit " + test);
 
   fitness = calculateFitness();
+
+  cout << fitness << "\t" << program << endl;
 
   return fitness;
 }
@@ -47,12 +51,12 @@ double PhpUnitEvaluator::calculateFitness() {
   xml_document document;
 
   if (!document.load_file(documentPath.c_str())) {
-    throw logic_error("Could not open file with PhpUnit results.");
+    return 10000.0;
   }
 
   vector<pair<PhpLiteral, PhpLiteral>> failures;
 
-  auto testCases = document.child("testsuites").child("testsuite").child("testsuite").children("testcase");
+  auto testCases = document.child("testsuites").child("testsuite").children("testcase");
 
   for (auto &testCase : testCases) {
     if (!testCase.child("error").empty()) {

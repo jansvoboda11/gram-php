@@ -10,12 +10,14 @@
 
 class PhpUnitEvaluator : public gram::Evaluator {
  public:
-  PhpUnitEvaluator(CommandLine commandLine, const std::string& path);
+  PhpUnitEvaluator(CommandLine commandLine, const std::string& path, const std::string& file, const std::string& test);
   double evaluate(std::string program);
  private:
   double calculateFitness();
   CommandLine commandLine;
   std::string path;
+  std::string file;
+  std::string test;
   std::unordered_map<std::string, double> storedFitness;
 };
 

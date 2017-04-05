@@ -28,7 +28,7 @@ string loadFile(const string& name) {
 }
 
 int main(int argc, char* argv[]) {
-  if (argc != 3) {
+  if (argc != 5) {
     return 1;
   }
 
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 
   CommandLine commandLine;
 
-  auto evaluator = make_unique<PhpUnitEvaluator>(commandLine, argv[2]);
+  auto evaluator = make_unique<PhpUnitEvaluator>(commandLine, argv[2], argv[3], argv[4]);
 
   Evolution evolution(move(evaluator));
 
