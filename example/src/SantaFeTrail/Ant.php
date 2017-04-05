@@ -54,7 +54,7 @@ class Ant
     }
 
     /**
-     * Collect as many pieces of food as fast as possible using given brain.
+     * Collect as many pieces of food as fast as possible.
      *
      * @param int $timeLimit
      */
