@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
   auto numberGenerator4 = make_unique<TwisterNumberGenerator>();
   auto boolGenerator = make_unique<TwisterBoolGenerator>(0.1);
 
-  auto selector = make_unique<TournamentSelector>(move(numberGenerator1));
+  auto selector = make_unique<TournamentSelector>(10, move(numberGenerator1));
   auto mutation = make_unique<NumberMutation>(move(boolGenerator), move(numberGenerator2));
   auto crossover = make_unique<OnePointCrossover>(move(numberGenerator3));
   auto reproducer = make_shared<Reproducer>(move(selector), move(crossover), move(mutation));
