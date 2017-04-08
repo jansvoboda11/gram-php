@@ -1,4 +1,4 @@
-<program> ::= "<?php namespace Example; class ArrayHelper { public static function filter(array $input, callable $condition) : array { " <statements> " } }"
+<program> ::= "<?php function arr_filter($input, $condition) { " <statements> " }"
 <statements> ::= <statement> <statements> | <statement>
 <statement> ::= <array-initialization> | <array-push> | <foreach-loop> | <if-condition> | <return>
 

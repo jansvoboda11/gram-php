@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . '/../../src/arr_filter.php';
+
 use Example\ArrayHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -9,7 +11,7 @@ class ArrayHelperTest extends TestCase
     {
         $array = [];
 
-        $filtered = ArrayHelper::filter($array, function (int $item) {
+        $filtered = arr_filter($array, function ($item) {
             return $item > 0;
         });
 
@@ -20,7 +22,7 @@ class ArrayHelperTest extends TestCase
     {
         $array = [-10, -5, -3, -1];
 
-        $filtered = ArrayHelper::filter($array, function (int $item) {
+        $filtered = arr_filter($array, function ($item) {
             return $item > 0;
         });
 
@@ -31,7 +33,7 @@ class ArrayHelperTest extends TestCase
     {
         $array = [-10, -5, -3, -1, 1, 3, 5, 10];
 
-        $filtered = ArrayHelper::filter($array, function (int $item) {
+        $filtered = arr_filter($array, function ($item) {
             return $item > 0;
         });
 
@@ -42,7 +44,7 @@ class ArrayHelperTest extends TestCase
     {
         $array = [1, 20, 42];
 
-        $filtered = ArrayHelper::filter($array, function (int $item) {
+        $filtered = arr_filter($array, function ($item) {
             return $item > 0;
         });
 
