@@ -1,9 +1,6 @@
 #include <gram-php/PhpUnitEvaluator.h>
 
-#include <iostream>
-
 #include <fstream>
-#include <regex>
 
 #include <pugixml.hpp>
 
@@ -35,11 +32,7 @@ double PhpUnitEvaluator::evaluate(string program) {
 
   commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit " + test);
 
-  fitness = calculateFitness();
-
-  cout << fitness << "\t" << program << endl;
-
-  return fitness;
+  return calculateFitness();;
 }
 
 double PhpUnitEvaluator::calculateFitness() {
