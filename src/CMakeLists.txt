@@ -16,11 +16,11 @@ set(SOURCE_FILES
         ../include/gram-php/PhpUnitEvaluator.h
         )
 
-add_library(gram-php STATIC ${SOURCE_FILES})
+add_library(gram-php-lib STATIC ${SOURCE_FILES})
 
-add_dependencies(gram-php gram pugixml)
+add_dependencies(gram-php-lib gram pugixml)
 
-target_link_libraries(gram-php
+target_link_libraries(gram-php-lib
         ${gram-php_SOURCE_DIR}/lib/gram/src/gram-build/src/libgram.a
         ${gram-php_SOURCE_DIR}/lib/pugixml/src/pugixml-build/libpugixml.a
         )

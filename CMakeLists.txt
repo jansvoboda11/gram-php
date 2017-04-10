@@ -31,8 +31,8 @@ ExternalProject_Add(pugixml
 add_subdirectory(src)
 add_subdirectory(test)
 
-add_executable(gram-php-gen main.cpp)
+add_executable(gram-php main.cpp)
 
-add_dependencies(gram-php-gen gram)
+add_dependencies(gram-php gram)
 
-target_link_libraries(gram-php-gen gram-php)
+target_link_libraries(gram-php gram-php-lib)

@@ -24,12 +24,12 @@ ExternalProject_Add(fakeit
         INSTALL_COMMAND ""
         )
 
-add_executable(gram-php-tests
-        test.cpp
+add_executable(gram-php-lib-tests
         diff_calculator_test.cpp
         php_serializer_test.cpp
+        test.cpp
         )
 
-add_dependencies(gram-php-tests catch fakeit)
+add_dependencies(gram-php-lib-tests catch fakeit)
 
-target_link_libraries(gram-php-tests gram-php)
+target_link_libraries(gram-php-lib-tests gram-php-lib)
