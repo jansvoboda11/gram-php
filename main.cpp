@@ -7,6 +7,7 @@
 #include <gram/population/initializer/RandomInitializer.h>
 #include <gram/population/selector/TournamentSelector.h>
 #include <gram/util/bool_generator/TwisterBoolGenerator.h>
+#include <gram/util/logger/NullLogger.h>
 #include <gram/util/number_generator/TwisterNumberGenerator.h>
 #include <gram/Evolution.h>
 
@@ -54,8 +55,9 @@ int main(int argc, char* argv[]) {
   CommandLine commandLine;
 
   auto evaluator = make_unique<PhpUnitEvaluator>(commandLine, argv[2], argv[3], argv[4]);
+  auto logger = make_unique<NullLogger>();
 
-  Evolution evolution(move(evaluator));
+  Evolution evolution(move(evaluator), move(logger));
 
   Population population = initializer.initialize(200, reproducer);
 
