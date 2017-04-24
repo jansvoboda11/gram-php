@@ -6,16 +6,28 @@
 
 #include <gram-php/DiffCalculator.h>
 #include <gram-php/PhpSerializer.h>
+#include <iostream>
 
+using namespace gram;
 using namespace pugi;
 using namespace std;
 
-PhpUnitEvaluator::PhpUnitEvaluator(CommandLine commandLine, const string& path, const string& file, const string& test)
-    : commandLine(commandLine), path(path), file(file), test(test) {
+PhpUnitEvaluator::PhpUnitEvaluator(CommandLine commandLine, shared_ptr<ContextFreeMapper> mapper, const string& path, const string& file, const string& test)
+    : commandLine(commandLine), mapper(mapper), path(path), file(file), test(test) {
   //
 }
 
-double PhpUnitEvaluator::evaluate(string program) {
+double PhpUnitEvaluator::evaluate(const Genotype& genotype) noexcept {
+  string program;
+
+  try {
+    program = mapper->map(genotype);
+  } catch (...) {
+    return 1000;
+  }
+
+  cout << program << endl;
+
   double& fitness = storedFitness[program];
 
   if (fitness) {
@@ -32,7 +44,7 @@ double PhpUnitEvaluator::evaluate(string program) {
 
   commandLine.execute("cd " + path + " && vendor/phpunit/phpunit/phpunit " + test);
 
-  return calculateFitness();;
+  return calculateFitness();
 }
 
 double PhpUnitEvaluator::calculateFitness() {
